@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/visitFragment">
+
+    <fragment
+        android:id="@+id/visitFragment"
+        android:name="com.example.marcin.registrationvisitapp.VisitFragment"
+        android:label="visit_fragment"
+        tools:layout="@layout/visit_fragment" />
+</navigation>
