@@ -15,4 +15,10 @@ public class Visit {
     private String details;
     private Date date;
     private Timestamp timestamp;
+
+    public Visit(int id, String name, String details) {
+        this.id = id;
+        this.name = name;
+        this.details = details;
+    }
 }
