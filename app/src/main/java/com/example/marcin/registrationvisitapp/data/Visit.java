@@ -13,12 +13,23 @@ public class Visit {
 
     private String name;
     private String details;
-    private Date date;
-    private Timestamp timestamp;
 
     public Visit(int id, String name, String details) {
         this.id = id;
         this.name = name;
         this.details = details;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDetails() {
+
+        return details;
     }
 }
