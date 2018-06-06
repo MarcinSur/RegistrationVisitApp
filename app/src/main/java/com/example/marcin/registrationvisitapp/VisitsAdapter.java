@@ -15,7 +15,7 @@ import java.util.List;
 public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
     private List<Visit> mVisits = new ArrayList<>();
-
+    private int pos;
 
     @NonNull
     @Override
@@ -31,6 +31,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull VisitsViewHolder holder, int position) {
         holder.textView.setText(mVisits.get(position).getName());
+        pos = position;
     }
 
     @Override
@@ -43,8 +44,8 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
     public void add(Visit v){
         mVisits.add(v);
+        //notifyItemInserted(0);
         notifyDataSetChanged();
-
     }
 
     public void addAll(List<Visit> list) {
