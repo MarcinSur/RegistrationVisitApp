@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp.Repository;
+package com.example.marcin.registrationvisitapp.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
@@ -8,7 +8,6 @@ import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.data.VisitDao;
 import com.example.marcin.registrationvisitapp.database.VisitsDatabase;
 
-import java.util.Date;
 import java.util.List;
 
 public class VisitRepository {
