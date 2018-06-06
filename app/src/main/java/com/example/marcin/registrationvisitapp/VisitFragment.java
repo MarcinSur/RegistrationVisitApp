@@ -23,13 +23,13 @@ import android.widget.Button;
 import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.ui.viewmodels.VisitViewModel;
 import com.example.marcin.registrationvisitapp.utilities.VisitDialog;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +72,6 @@ public class VisitFragment extends Fragment {
             }
         });
 
-        return view;
-
-        View view = inflater.inflate(R.layout.visit_fragment, container, false);
         saveBtn = view.findViewById(R.id.button2);
         mRecyclerView = view.findViewById(R.id.visit_recyclerview);
         mRecyclerView.setHasFixedSize(true);
@@ -97,12 +94,12 @@ public class VisitFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                savetoFirebaseTestData();
-            }
-        });
+//        saveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                savetoFirebaseTestData();
+//            }
+//        });
         mViewModel = ViewModelProviders.of(this).get(VisitViewModel.class);
         // TODO: Use the ViewModel
     }
