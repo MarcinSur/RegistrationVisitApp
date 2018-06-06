@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.example.marcin.registrationvisitapp.Repository.VisitRepository;
+import com.example.marcin.registrationvisitapp.repository.VisitRepository;
 import com.example.marcin.registrationvisitapp.data.Visit;
 
 import java.util.List;

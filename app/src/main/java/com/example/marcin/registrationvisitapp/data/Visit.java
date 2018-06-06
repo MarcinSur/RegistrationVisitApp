@@ -14,6 +14,10 @@ public class Visit {
     private String name;
     private String details;
 
+    public Visit(){
+        // Default constructor required for calls to DataSnapshot.getValue(Visit.class)
+    }
+
     public Visit(int id, String name, String details) {
         this.id = id;
         this.name = name;
@@ -29,7 +33,18 @@ public class Visit {
     }
 
     public String getDetails() {
-
         return details;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }
