@@ -4,25 +4,25 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.Gravity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.ui.viewmodels.VisitViewModel;
-import com.example.marcin.registrationvisitapp.utilities.VisitDialog;
+import com.example.marcin.registrationvisitapp.ui.VisitDialog;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,11 +34,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitFragment extends Fragment {
+public class VisitFragment extends Fragment implements VisitDialogListener {
 
     private VisitViewModel mViewModel;
-    DialogFragment dialog = new VisitDialog();
-    private Button saveBtn;
+    VisitDialog dialog = new VisitDialog();
     private RecyclerView mRecyclerView;
     private VisitsAdapter mVisitsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -46,6 +45,7 @@ public class VisitFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRef;
     List<Visit> mVisits = new ArrayList<>();
+
 
 
     public static VisitFragment newInstance() {
@@ -58,21 +58,16 @@ public class VisitFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.visit_fragment, container, false);
 
+        dialog.setupVisitDialogListeners(this);
+
         Button button = view.findViewById(R.id.addVisit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                BottomSheetDialog dialog = new BottomSheetDialog(getContext()); dialog.setContentView(R.layout.visit_dialog);
-//                dialog.show();
-
-
-                dialog.show(getFragmentManager(), "NoticeDialogFragment");
-
+                dialog.show(getFragmentManager(), "VisitDialogFragment");
             }
         });
 
-        saveBtn = view.findViewById(R.id.button2);
         mRecyclerView = view.findViewById(R.id.visit_recyclerview);
         mRecyclerView.setHasFixedSize(true);
 
@@ -83,10 +78,11 @@ public class VisitFragment extends Fragment {
         mRecyclerView.setAdapter(mVisitsAdapter);
 
         database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
         myRef = database.getReference("visits");
         myRef.keepSynced(true);
 
-        readChildFromDatabse();
+        readChildFromDatabase();
 
         return view;
     }
@@ -94,21 +90,16 @@ public class VisitFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        saveBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                savetoFirebaseTestData();
-//            }
-//        });
         mViewModel = ViewModelProviders.of(this).get(VisitViewModel.class);
         // TODO: Use the ViewModel
     }
 
-    private void readChildFromDatabse(){
+    private void readChildFromDatabase(){
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 mVisitsAdapter.add(dataSnapshot.getValue(Visit.class));
+                Log.w("readChildFromDatabase","onChildAdded");
             }
 
             @Override
@@ -133,32 +124,11 @@ public class VisitFragment extends Fragment {
         });
     }
 
-    private void readFromFirebase() {
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                mVisits.clear();
-                for (DataSnapshot visitSnap : dataSnapshot.getChildren()) {
-                    Visit v = visitSnap.getValue(Visit.class);
-                    mVisits.add(v);
-                }
-                mVisitsAdapter.addAll(mVisits);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
-
-    }
-
-    private void savetoFirebaseTestData() {
-        Visit visit = new Visit(0, "ble", "boo");
-        Log.w("savetoFirebaseTestData", "SAVED");
+    @Override
+    public void onDialogSaveClick(Visit visit) {
         myRef.push().setValue(visit);
+        dialog.getDialog().cancel();
+        //Toast.makeText(getContext(),"zapisano " + visit.getName(),Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(),"Zapisano",Snackbar.LENGTH_SHORT).show();
     }
-
 }
