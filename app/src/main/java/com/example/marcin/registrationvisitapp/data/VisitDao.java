@@ -1,27 +1,27 @@
 package com.example.marcin.registrationvisitapp.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface VisitDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertVisit(Visit visit);
+    long insertVisit(Visit visit);
 
     @Update()
-    public void updateVisit(Visit visit);
+    void updateVisit(Visit visit);
 
     @Delete()
-    public  void deleteVisit(Visit visit);
+    void deleteVisit(Visit visit);
 
     @Query("SELECT * FROM visits")
-    public LiveData<List<Visit>> loadAllVisits();
+    LiveData<List<Visit>> loadAllVisits();
 
 }

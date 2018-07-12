@@ -1,33 +1,45 @@
 package com.example.marcin.registrationvisitapp;
 
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v7.widget.RecyclerView;
-import android.transition.ChangeBounds;
-import android.transition.Transition;
-import android.transition.TransitionManager;
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.transition.Fade;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.example.marcin.registrationvisitapp.data.Visit;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
     private List<Visit> mVisits = new ArrayList<>();
     private int pos;
-    private ConstraintSet constraintSetOld = new ConstraintSet();
-    private ConstraintSet constraintSetNew = new ConstraintSet();
-    ConstraintLayout constraintLayout;
+    private Activity activity;
+
     private Button button;
+    private CheckBox checkBox;
+    private RecyclerView recyclerView;
+
+    public VisitsAdapter(Activity activity) {
+        this.activity = activity;
+
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
 
     @NonNull
     @Override
@@ -36,32 +48,32 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.visit_item_recyclerview, parent, false);
 
-        constraintLayout = view.findViewById(R.id.constraint_layout);
-        constraintSetNew.clone(parent.getContext(), R.layout.visit_item_recyclerview_big);
-        constraintSetOld.clone(constraintLayout);
-
+        checkBox = view.findViewById(R.id.checkBox);
         button = view.findViewById(R.id.time_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transition changeBounds = new ChangeBounds();
-                changeBounds.setInterpolator(new OvershootInterpolator());
 
-                TransitionManager.beginDelayedTransition(constraintLayout,changeBounds);
-                constraintSetOld.applyTo(constraintLayout);
-                Log.w("VisitsViewHolder","onClick");
+                Intent i = new Intent(activity, DetailsActivity.class);
+                activity.getWindow().setEnterTransition(new Fade(Fade.IN));
+                activity.getWindow().setExitTransition(new Fade(Fade.OUT));
+
+                ActivityOptions transitionActivityOptions = ActivityOptions.
+                        makeSceneTransitionAnimation(activity,
+                                new Pair<View, String>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
+
+                activity.startActivity(i, transitionActivityOptions.toBundle());
             }
         });
-
         VisitsViewHolder vh = new VisitsViewHolder(view);
+        pos = vh.getAdapterPosition();
+
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull VisitsViewHolder holder, int position) {
         holder.textView.setText(mVisits.get(position).getName());
-
-        pos = position;
     }
 
     @Override
@@ -72,10 +84,12 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
             return mVisits.size();
     }
 
-    public void add(Visit v){
+    public void add(Visit v) {
         mVisits.add(v);
         //notifyItemInserted(0);
-        notifyDataSetChanged();
+        notifyItemChanged(mVisits.size());
+        recyclerView.smoothScrollToPosition(mVisits.size());
+        Log.w("VisitAdapter", "add");
     }
 
     public void addAll(List<Visit> list) {

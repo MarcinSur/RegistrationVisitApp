@@ -1,36 +1,20 @@
 package com.example.marcin.registrationvisitapp;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.ui.viewmodels.VisitViewModel;
 import com.example.marcin.registrationvisitapp.ui.VisitDialog;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,16 +26,14 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
     private VisitsAdapter mVisitsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
     List<Visit> mVisits = new ArrayList<>();
-
-
 
     public static VisitFragment newInstance() {
 
         return new VisitFragment();
     }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -74,15 +56,8 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mVisitsAdapter = new VisitsAdapter();
+        mVisitsAdapter = new VisitsAdapter(getActivity());
         mRecyclerView.setAdapter(mVisitsAdapter);
-
-        database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        myRef = database.getReference("visits");
-        myRef.keepSynced(true);
-
-        readChildFromDatabase();
 
         return view;
     }
@@ -91,42 +66,17 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VisitViewModel.class);
-        // TODO: Use the ViewModel
-    }
+        mViewModel.getAllVisits().observe(this, visits -> {
+            mVisitsAdapter.addAll(visits);
+            mRecyclerView.scheduleLayoutAnimation();
 
-    private void readChildFromDatabase(){
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                mVisitsAdapter.add(dataSnapshot.getValue(Visit.class));
-                Log.w("readChildFromDatabase","onChildAdded");
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
         });
     }
 
+
     @Override
     public void onDialogSaveClick(Visit visit) {
-        myRef.push().setValue(visit);
+        mViewModel.saveToFirebase(visit);
         dialog.getDialog().cancel();
         //Toast.makeText(getContext(),"zapisano " + visit.getName(),Toast.LENGTH_SHORT).show();
         Snackbar.make(getView(),"Zapisano",Snackbar.LENGTH_SHORT).show();

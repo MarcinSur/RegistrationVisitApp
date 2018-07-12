@@ -1,7 +1,7 @@
 package com.example.marcin.registrationvisitapp.repository;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.example.marcin.registrationvisitapp.data.Visit;

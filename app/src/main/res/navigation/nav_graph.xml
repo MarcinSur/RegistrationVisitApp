@@ -8,5 +8,6 @@
         android:id="@+id/visitFragment"
         android:name="com.example.marcin.registrationvisitapp.VisitFragment"
         android:label="visit_fragment"
-        tools:layout="@layout/visit_fragment" />
+        tools:layout="@layout/visit_fragment" >
+    </fragment>
 </navigation>

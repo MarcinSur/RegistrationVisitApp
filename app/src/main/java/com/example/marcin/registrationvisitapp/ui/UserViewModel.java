@@ -1,6 +1,6 @@
 package com.example.marcin.registrationvisitapp.ui;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 public class UserViewModel extends ViewModel {
 
