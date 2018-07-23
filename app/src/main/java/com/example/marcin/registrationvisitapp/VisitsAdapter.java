@@ -60,7 +60,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
                 ActivityOptions transitionActivityOptions = ActivityOptions.
                         makeSceneTransitionAnimation(activity,
-                                new Pair<View, String>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
+                                new Pair<>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
 
                 activity.startActivity(i, transitionActivityOptions.toBundle());
             }
@@ -86,10 +86,10 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
     public void add(Visit v) {
         mVisits.add(v);
-        //notifyItemInserted(0);
-        notifyItemChanged(mVisits.size());
-        recyclerView.smoothScrollToPosition(mVisits.size());
-        Log.w("VisitAdapter", "add");
+        notifyItemInserted(mVisits.size() - 1);
+        //notifyDataSetChanged();
+        //recyclerView.smoothScrollToPosition(mVisits.size());
+        Log.w("VisitAdapter", Integer.toString(mVisits.size()));
     }
 
     public void addAll(List<Visit> list) {

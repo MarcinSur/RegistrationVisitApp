@@ -1,113 +1,55 @@
 package com.example.marcin.registrationvisitapp.ui.viewmodels;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.util.Log;
+import androidx.lifecycle.Transformations;
 
-import com.example.marcin.registrationvisitapp.repository.VisitRepository;
+import com.example.marcin.registrationvisitapp.FirebaseQueryLiveData;
 import com.example.marcin.registrationvisitapp.data.Visit;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisitViewModel extends AndroidViewModel {
 
-    private VisitRepository mRepository;
     private MutableLiveData<List<Visit>> mAllVisits = new MutableLiveData<>();
 
-    //FirebaseDatabase database;
-    //DatabaseReference myRef;
+    private static final DatabaseReference FIREBASE_VISITS_REF = FirebaseDatabase.getInstance().getReference("/visits");
+    private final FirebaseQueryLiveData firebaseData = new FirebaseQueryLiveData(FIREBASE_VISITS_REF);
+    private MutableLiveData<List<Visit>> visitData = new MutableLiveData<>();
+
+    private List<Visit> allVisits = new ArrayList<>();
+
+    public final LiveData<List<Visit>> visits =
+            Transformations.switchMap(firebaseData, (visit) -> getVisit(visit));
 
     public VisitViewModel(Application application) {
         super(application);
-        mRepository = new VisitRepository(application);
-        //mAllVisits = mRepository.getAllVisits();
-
-
-        //database = FirebaseDatabase.getInstance();
-        //database.setPersistenceEnabled(true);
-        //myRef = database.getReference("visits");
-        //myRef.keepSynced(true);
-
-        readChildFromDatabase();
+        FIREBASE_VISITS_REF.keepSynced(true);
     }
 
-    public LiveData<List<Visit>> getAllVisits() {
-        if(mAllVisits.getValue() == null){
-            loadAllFromFirebase();
-        }
-        return mAllVisits;
-    }
-    public void insertVisit(Visit visit){
-        mRepository.insert(visit);
+    private void getLastVisit(){
+        if(allVisits.contains(firebaseData.getCurrentSnap().getValue(Visit.class)))
+            return;
+
+        allVisits.add(firebaseData.getCurrentSnap().getValue(Visit.class));
     }
 
-    public void insertVisitToFirebase(Visit visit){
-        mAllVisits.getValue().add(visit);
+    public LiveData<List<Visit>> getVisit(Visit visit) {
+        allVisits.add(visit);
+        visitData.setValue(allVisits);
+        return visitData;
     }
 
-    public void saveToFirebase(Visit visit){
-
-    }
-
-    private LiveData<List<Visit>> loadAllFromFirebase(){
-//        final List<Visit> visits = new ArrayList<>();
-//        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot visitSnapshot: dataSnapshot.getChildren())
-//                {
-//                    visits.add(visitSnapshot.getValue(Visit.class));
-//                }
-//                mAllVisits.setValue(visits);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-        return mAllVisits;
-    }
-
-    private void readChildFromDatabase(){
-//        myRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                Log.w("readChildFromDatabase","onChildAdded");
-//                if(mAllVisits.getValue() == null) {
-//                    final List<Visit> visits = new ArrayList<>();
-//                    mAllVisits.setValue(visits);
-//                }
-//
-//                insertVisitToFirebase(dataSnapshot.getValue(Visit.class));
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+    public void saveToFirebase(Visit visit) {
+        FIREBASE_VISITS_REF.push().setValue(visit);
     }
 
 }

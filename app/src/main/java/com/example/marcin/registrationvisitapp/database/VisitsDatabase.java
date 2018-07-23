@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.data.VisitDao;
+import com.google.firebase.database.ChildEventListener;
 
 @Database(entities = {Visit.class}, version = 1)
 public abstract class VisitsDatabase extends RoomDatabase {
@@ -28,4 +29,6 @@ public abstract class VisitsDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
 }
+

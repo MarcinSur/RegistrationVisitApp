@@ -1,5 +1,6 @@
 package com.example.marcin.registrationvisitapp.data;
 
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,9 +11,10 @@ import java.util.Date;
 public class Visit {
     @PrimaryKey(autoGenerate = true)
     private int id;
-
     private String name;
     private String details;
+
+    public static  DiffUtil.ItemCallback<Visit> DIFF_CALLBACK ;
 
     public Visit(){
         // Default constructor required for calls to DataSnapshot.getValue(Visit.class)

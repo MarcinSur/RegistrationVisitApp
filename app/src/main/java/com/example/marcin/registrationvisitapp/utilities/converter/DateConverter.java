@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp.converter;
+package com.example.marcin.registrationvisitapp.utilities.converter;
 
 import androidx.room.TypeConverter;
 
