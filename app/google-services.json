@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "39473423751-ai2iv5gtckl9cp9oefufo2ah01v2npti.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.marcin.registrationvisitapp",
-            "certificate_hash": "3b6b147cda2b36cda914235e6398b7f3bb80f080"
-          }
-        },
-        {
           "client_id": "39473423751-ndjl8k8ukdlftvdateefhct5a1kq2hbj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -31,8 +23,12 @@
           }
         },
         {
-          "client_id": "39473423751-qa7ja1a6nj3kbt69n8m58ff8qop92v99.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "39473423751-ai2iv5gtckl9cp9oefufo2ah01v2npti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marcin.registrationvisitapp",
+            "certificate_hash": "3b6b147cda2b36cda914235e6398b7f3bb80f080"
+          }
         },
         {
           "client_id": "39473423751-qa7ja1a6nj3kbt69n8m58ff8qop92v99.apps.googleusercontent.com",

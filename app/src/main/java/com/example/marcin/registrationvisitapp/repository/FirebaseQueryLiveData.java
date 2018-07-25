@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp;
+package com.example.marcin.registrationvisitapp.repository;
 
 import android.util.Log;
 
@@ -28,7 +28,7 @@ public class FirebaseQueryLiveData extends LiveData<Visit>{
     }
 
     public FirebaseQueryLiveData(DatabaseReference reference){
-        this.query = reference.limitToFirst(3);
+        this.query = reference.limitToLast(10);
         query.addChildEventListener(firebaseChildEventListener);
         Log.w("FirebaseQueryLiveData","FirebaseQueryLiveData");
     }

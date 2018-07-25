@@ -4,13 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.marcin.registrationvisitapp.FirebaseQueryLiveData;
+import com.example.marcin.registrationvisitapp.repository.FirebaseQueryLiveData;
 import com.example.marcin.registrationvisitapp.data.Visit;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

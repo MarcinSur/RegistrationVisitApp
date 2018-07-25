@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp.ui;
+package com.example.marcin.registrationvisitapp.ui.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
