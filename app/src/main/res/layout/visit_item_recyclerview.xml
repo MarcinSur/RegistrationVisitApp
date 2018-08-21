@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/card_item"
     app:cardCornerRadius="2dp"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true"
@@ -57,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:drawableStart="@drawable/ic_outline_calendar_today_24px"
             android:drawablePadding="10dp"
@@ -67,7 +68,7 @@
             android:textAllCaps="false"
             android:textColor="@android:color/holo_blue_light"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.086"
+            app:layout_constraintHorizontal_bias="0.109"
             app:layout_constraintStart_toEndOf="@+id/checkBox"
             app:layout_constraintTop_toBottomOf="@+id/desc_text" />
 

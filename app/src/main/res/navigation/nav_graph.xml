@@ -2,11 +2,36 @@
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/visitFragment">
+    app:startDestination="@id/loginFragment"
+    >
 
     <fragment
         android:id="@+id/visitFragment"
         android:name="com.example.marcin.registrationvisitapp.VisitFragment"
         android:label="visit_fragment"
-        tools:layout="@layout/visit_fragment"></fragment>
+        tools:layout="@layout/visit_fragment_v2" >
+
+        <action
+            android:id="@+id/action_visitFragment_to_loginFragment6"
+            app:destination="@id/loginFragment"
+            app:clearTask="true"/>
+        <action
+            android:id="@+id/action_visitFragment_to_likes"
+            app:destination="@id/likes" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.marcin.registrationvisitapp.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_visitFragment2"
+            app:clearTask="true"
+            app:destination="@id/visitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/likes"
+        android:name="com.example.marcin.registrationvisitapp.Likes"
+        android:label="likes_fragment"
+        tools:layout="@layout/likes_fragment" />
 </navigation>

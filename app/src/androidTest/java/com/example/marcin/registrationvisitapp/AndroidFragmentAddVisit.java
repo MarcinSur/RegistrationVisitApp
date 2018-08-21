@@ -19,8 +19,6 @@ public class AndroidFragmentAddVisit {
     @Rule public ActivityTestRule<MainActivity> mainActivityTestRule
             = new ActivityTestRule<>(MainActivity.class);
 
-
-
     @Test
     public void addVisitButton(){
         onView(withId(R.id.addVisit)).perform(click());

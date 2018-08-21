@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.example.marcin.registrationvisitapp.data.Visit;
+import com.example.marcin.registrationvisitapp.utilities.converter.DateConverter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     private Button button;
     private CheckBox checkBox;
     private RecyclerView recyclerView;
+    public final static int REQUEST_IMAGE_GALLERY = 100;
 
     public VisitsAdapter(Activity activity) {
         this.activity = activity;
@@ -50,20 +53,20 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
         checkBox = view.findViewById(R.id.checkBox);
         button = view.findViewById(R.id.time_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button.setOnClickListener(b->{
 
-                Intent i = new Intent(activity, DetailsActivity.class);
-                activity.getWindow().setEnterTransition(new Fade(Fade.IN));
-                activity.getWindow().setExitTransition(new Fade(Fade.OUT));
+        });
+        view.setOnClickListener(v -> {
 
-                ActivityOptions transitionActivityOptions = ActivityOptions.
-                        makeSceneTransitionAnimation(activity,
-                                new Pair<>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
+            Intent i = new Intent(activity, DetailsActivity.class);
+            activity.getWindow().setEnterTransition(new Fade(Fade.IN));
+            activity.getWindow().setExitTransition(new Fade(Fade.OUT));
 
-                activity.startActivity(i, transitionActivityOptions.toBundle());
-            }
+            ActivityOptions transitionActivityOptions = ActivityOptions.
+                    makeSceneTransitionAnimation(activity,
+                            new Pair<>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
+
+            activity.startActivity(i, transitionActivityOptions.toBundle());
         });
         VisitsViewHolder vh = new VisitsViewHolder(view);
         pos = vh.getAdapterPosition();
@@ -74,6 +77,10 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull VisitsViewHolder holder, int position) {
         holder.textView.setText(mVisits.get(position).getName());
+        if (mVisits.get(position).getDate() != null)
+            holder.button.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(mVisits.get(position).getDate()));
+        if (mVisits.get(position).getTimeStamp() != 0)
+            holder.button.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(DateConverter.toDate(mVisits.get(position).getTimeStamp())));
     }
 
     @Override
@@ -95,6 +102,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     public void addAll(List<Visit> list) {
         mVisits = list;
         Log.w("AddALL", Integer.toString(list.size()));
-        notifyDataSetChanged();
+        notifyItemRangeInserted(mVisits.size(),list.size());
     }
 }
