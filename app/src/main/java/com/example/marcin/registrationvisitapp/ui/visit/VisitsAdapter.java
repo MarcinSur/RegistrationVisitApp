@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp;
+package com.example.marcin.registrationvisitapp.ui.visit;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.example.marcin.registrationvisitapp.data.Visit;
+import com.example.marcin.registrationvisitapp.DetailsActivity;
+import com.example.marcin.registrationvisitapp.R;
 import com.example.marcin.registrationvisitapp.utilities.converter.DateConverter;
 
 import java.text.DateFormat;
@@ -31,7 +32,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     private Button button;
     private CheckBox checkBox;
     private RecyclerView recyclerView;
-    public final static int REQUEST_IMAGE_GALLERY = 100;
 
     public VisitsAdapter(Activity activity) {
         this.activity = activity;
@@ -41,7 +41,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -54,7 +53,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
         checkBox = view.findViewById(R.id.checkBox);
         button = view.findViewById(R.id.time_button);
         button.setOnClickListener(b->{
-
         });
         view.setOnClickListener(v -> {
 
@@ -64,7 +62,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
             ActivityOptions transitionActivityOptions = ActivityOptions.
                     makeSceneTransitionAnimation(activity,
-                            new Pair<>(view.findViewById(R.id.checkBox), activity.getString(R.string.blue_name)));
+                            new Pair<>(checkBox, activity.getString(R.string.blue_name)));
 
             activity.startActivity(i, transitionActivityOptions.toBundle());
         });
@@ -93,15 +91,16 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
 
     public void add(Visit v) {
         mVisits.add(v);
-        notifyItemInserted(mVisits.size() - 1);
-        //notifyDataSetChanged();
-        //recyclerView.smoothScrollToPosition(mVisits.size());
+        int endOfList = mVisits.size() - 1;
         Log.w("VisitAdapter", Integer.toString(mVisits.size()));
     }
 
     public void addAll(List<Visit> list) {
-        mVisits = list;
+        mVisits.clear();
+        mVisits.addAll(list);
+        int endOfList = mVisits.size() - 1;
+        //recyclerView.smoothScrollToPosition(endOfList);
         Log.w("AddALL", Integer.toString(list.size()));
-        notifyItemRangeInserted(mVisits.size(),list.size());
+        //notifyItemRangeInserted(mVisits.size(),list.size());
     }
 }

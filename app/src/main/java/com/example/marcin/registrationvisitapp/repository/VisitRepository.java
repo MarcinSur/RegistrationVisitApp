@@ -4,8 +4,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.marcin.registrationvisitapp.data.Visit;
-import com.example.marcin.registrationvisitapp.data.VisitDao;
+import com.example.marcin.registrationvisitapp.ui.visit.Visit;
+import com.example.marcin.registrationvisitapp.database.VisitDao;
 import com.example.marcin.registrationvisitapp.database.VisitsDatabase;
 
 import java.util.List;

@@ -1,4 +1,6 @@
-package com.example.marcin.registrationvisitapp.data;
+package com.example.marcin.registrationvisitapp.database;
+
+import com.example.marcin.registrationvisitapp.ui.visit.Visit;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

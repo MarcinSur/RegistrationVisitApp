@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp.data;
+package com.example.marcin.registrationvisitapp.ui.visit;
 
 import com.example.marcin.registrationvisitapp.utilities.converter.DateConverter;
 
@@ -17,6 +17,7 @@ public class Visit {
     private String details;
     @TypeConverters(DateConverter.class)
     private Date date;
+    private String pushKey;
     private long timeStamp;
 
     public static  DiffUtil.ItemCallback<Visit> DIFF_CALLBACK ;
@@ -76,5 +77,13 @@ public class Visit {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getPushKey() {
+        return pushKey;
+    }
+
+    public void setPushKey(String pushKey) {
+        this.pushKey = pushKey;
     }
 }

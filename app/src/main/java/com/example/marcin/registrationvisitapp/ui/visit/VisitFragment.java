@@ -1,6 +1,5 @@
-package com.example.marcin.registrationvisitapp;
+package com.example.marcin.registrationvisitapp.ui.visit;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -11,49 +10,32 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.marcin.registrationvisitapp.R;
 import com.example.marcin.registrationvisitapp.ui.login.LoginViewModel;
-import com.example.marcin.registrationvisitapp.utilities.GravitySnapHelper;
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.marcin.registrationvisitapp.data.Visit;
-import com.example.marcin.registrationvisitapp.ui.viewmodels.VisitViewModel;
-import com.example.marcin.registrationvisitapp.ui.VisitDialog;
-import com.google.firebase.database.DataSnapshot;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import static android.app.Activity.RESULT_OK;
 
-public class VisitFragment extends Fragment implements VisitDialogListener {
+public class VisitFragment extends Fragment implements IVisitDialogListener {
 
     private VisitViewModel mViewModel;
     VisitDialog dialog = new VisitDialog();
@@ -77,8 +59,18 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
         View view = inflater.inflate(R.layout.visit_fragment_v2, container, false);
 
         dialog.setupVisitDialogListeners(this);
+
         progressBar = view.findViewById(R.id.progressBar);
         bottomNavigationView = view.findViewById(R.id.bottomAppBar);
+        avatar = view.findViewById(R.id.imageView2);
+        addImage = view.findViewById(R.id.buttonAddImage);
+        mRecyclerView = view.findViewById(R.id.visit_recyclerview);
+        FloatingActionButton button = view.findViewById(R.id.floatingActionButton);
+        ImageButton loginButton = view.findViewById(R.id.imageButton);
+
+        button.setOnClickListener(view1 -> dialog.show(getFragmentManager(), "VisitDialogFragment"));
+        loginButton.setOnClickListener(view12 -> ViewModelProviders.of(this).get(LoginViewModel.class).logOut());
+
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()){
                 case R.id.action_favorites:
@@ -91,26 +83,10 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
             }
             return true;
         });
+        addImage.setOnClickListener(view1 -> OpenGallery());
 
-//        bottomAppBar = view.findViewById(R.id.bottomAppBar);
-//        bottomAppBar.replaceMenu(R.menu.bottom_menu_items);
-
-        FloatingActionButton button = view.findViewById(R.id.floatingActionButton);
-        button.setOnClickListener(view1 -> dialog.show(getFragmentManager(), "VisitDialogFragment"));
-
-        avatar = view.findViewById(R.id.imageView2);
-
-        addImage = view.findViewById(R.id.buttonAddImage);
-        addImage.setOnClickListener(view1 -> {
-            OpenGallery();
-        });
-
-        ImageButton loginButton = view.findViewById(R.id.imageButton);
-        loginButton.setOnClickListener(view12 -> ViewModelProviders.of(this).get(LoginViewModel.class).logOut());
-        mRecyclerView = view.findViewById(R.id.visit_recyclerview);
+         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mVisitsAdapter = new VisitsAdapter(getActivity());
@@ -146,9 +122,12 @@ public class VisitFragment extends Fragment implements VisitDialogListener {
                 Log.w("onCreateView",isLogged.toString());
             }
         });
-        mViewModel.visits.observe(this, visits -> {
-            mVisitsAdapter.addAll(visits);
+        mViewModel.visit.observe(this, visit -> {
+            mVisitsAdapter.add(visit);
             progressBar.setVisibility(View.GONE);
+            mVisitsAdapter.notifyDataSetChanged();
+            mVisitsAdapter.notifyItemInserted(mVisitsAdapter.getItemCount());
+            mRecyclerView.smoothScrollToPosition(mVisitsAdapter.getItemCount());
         });
     }
 

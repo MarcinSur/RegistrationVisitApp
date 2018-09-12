@@ -5,9 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.marcin.registrationvisitapp.data.Visit;
-import com.example.marcin.registrationvisitapp.data.VisitDao;
-import com.google.firebase.database.ChildEventListener;
+import com.example.marcin.registrationvisitapp.ui.visit.Visit;
 
 @Database(entities = {Visit.class}, version = 1)
 public abstract class VisitsDatabase extends RoomDatabase {

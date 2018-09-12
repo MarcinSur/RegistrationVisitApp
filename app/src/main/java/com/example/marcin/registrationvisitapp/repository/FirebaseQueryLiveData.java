@@ -2,7 +2,7 @@ package com.example.marcin.registrationvisitapp.repository;
 
 import android.util.Log;
 
-import com.example.marcin.registrationvisitapp.data.Visit;
+import com.example.marcin.registrationvisitapp.ui.visit.Visit;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-public class FirebaseQueryLiveData extends LiveData<Visit>{
+public class FirebaseQueryLiveData extends LiveData<DataSnapshot>{
 
     private final Query query;
     private final FirebaseChildEventListener firebaseChildEventListener = new FirebaseChildEventListener();
@@ -45,7 +45,7 @@ public class FirebaseQueryLiveData extends LiveData<Visit>{
 
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            setValue(dataSnapshot.getValue(Visit.class));
+            setValue(dataSnapshot);
             Log.w("FirebaseEventListener","onChildAdded");
         }
 

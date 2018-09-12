@@ -1,4 +1,4 @@
-package com.example.marcin.registrationvisitapp.ui;
+package com.example.marcin.registrationvisitapp.ui.visit;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -18,18 +18,15 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.marcin.registrationvisitapp.R;
-import com.example.marcin.registrationvisitapp.VisitDialogListener;
-import com.example.marcin.registrationvisitapp.data.Visit;
 import com.example.marcin.registrationvisitapp.utilities.converter.DateConverter;
 
 import java.text.DateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 public class VisitDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
-    private VisitDialogListener saveVisitDialogListener;
+    private IVisitDialogListener saveIVisitDialogListener;
     private TextView mEditText;
     private Calendar calendar;
     private Date date;
@@ -79,15 +76,15 @@ public class VisitDialog extends DialogFragment implements DatePickerDialog.OnDa
         return builder.create();
     }
 
-    public void setupVisitDialogListeners(VisitDialogListener visitDialogListener) {
-        saveVisitDialogListener = visitDialogListener;
+    public void setupVisitDialogListeners(IVisitDialogListener IVisitDialogListener) {
+        saveIVisitDialogListener = IVisitDialogListener;
 
     }
 
     private void saveVisit() {
         Log.w("onCreateDialog", "SAVE");
         Visit visit = new Visit(1, mEditText.getText().toString(), "detail", DateConverter.tiTimeStamp(date));
-        saveVisitDialogListener.onDialogSaveClick(visit);
+        saveIVisitDialogListener.onDialogSaveClick(visit);
     }
 
     private void positionDialogOnBottom() {

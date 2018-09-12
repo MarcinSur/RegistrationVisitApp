@@ -21,7 +21,7 @@ public class AndroidFragmentAddVisit {
 
     @Test
     public void addVisitButton(){
-        onView(withId(R.id.addVisit)).perform(click());
+        onView(withId(R.id.floatingActionButton)).perform(click());
         onView(withId(R.id.dialog_view))
                 .check(matches(isDisplayed()));
     }
