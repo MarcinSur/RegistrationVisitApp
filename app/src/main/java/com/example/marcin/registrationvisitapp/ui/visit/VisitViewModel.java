@@ -20,9 +20,7 @@ public class VisitViewModel extends AndroidViewModel {
     private static final DatabaseReference FIREBASE_VISITS_REF = FirebaseDatabase.getInstance().getReference("/visits");
     private final FirebaseQueryLiveData firebaseData = new FirebaseQueryLiveData(FIREBASE_VISITS_REF);
 
-    public final LiveData<Visit> visit = Transformations
-            .map(firebaseData,
-                    v -> v.getValue(Visit.class));
+    public final LiveData<List<Visit>> visit = firebaseData;
 
     public final MediatorLiveData<List<Visit>> visits = new MediatorLiveData<>();
     public final MutableLiveData<List<Visit>> listMutableLiveData = new MutableLiveData<>();
@@ -32,7 +30,7 @@ public class VisitViewModel extends AndroidViewModel {
         super(application);
         FIREBASE_VISITS_REF.keepSynced(true);
         visits.addSource(visit, visit -> {
-            visitList.add(visit);
+            //visitList.add(visit);
             listMutableLiveData.setValue(visitList);
         });
     }

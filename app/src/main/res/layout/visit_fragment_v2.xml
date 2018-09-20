@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,19 +29,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/visit_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/background_light"
+            android:layout_height="wrap_content"
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:paddingBottom="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.31"
             tools:listitem="@layout/visit_item_recyclerview">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -65,34 +59,12 @@
             android:id="@+id/imageView2"
             android:layout_width="46dp"
             android:layout_height="39dp"
-            android:layout_marginEnd="64dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/common_full_open_on_phone"
             tools:src="@tools:sample/avatars[0]" />
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@null"
-            android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_outline_more_vert_24px"
-            android:tint="@color/common_google_signin_btn_text_dark_default"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonAddImage"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/buttonAddImage"
@@ -107,8 +79,6 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageButton2"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -141,16 +111,17 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        >
+        android:layout_gravity="start">
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/navigation_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/navigation_recycler_view">
+            android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
     </com.google.android.material.navigation.NavigationView>

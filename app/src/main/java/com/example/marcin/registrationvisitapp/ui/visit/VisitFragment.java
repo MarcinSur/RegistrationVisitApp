@@ -123,7 +123,7 @@ public class VisitFragment extends Fragment implements IVisitDialogListener {
             }
         });
         mViewModel.visit.observe(this, visit -> {
-            mVisitsAdapter.add(visit);
+            mVisitsAdapter.addAll(visit);
             progressBar.setVisibility(View.GONE);
             mVisitsAdapter.notifyDataSetChanged();
             mVisitsAdapter.notifyItemInserted(mVisitsAdapter.getItemCount());

@@ -30,7 +30,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
     private Activity activity;
 
     private Button button;
-    private CheckBox checkBox;
     private RecyclerView recyclerView;
 
     public VisitsAdapter(Activity activity) {
@@ -50,7 +49,6 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.visit_item_recyclerview, parent, false);
 
-        checkBox = view.findViewById(R.id.checkBox);
         button = view.findViewById(R.id.time_button);
         button.setOnClickListener(b->{
         });
@@ -60,11 +58,11 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsViewHolder> {
             activity.getWindow().setEnterTransition(new Fade(Fade.IN));
             activity.getWindow().setExitTransition(new Fade(Fade.OUT));
 
-            ActivityOptions transitionActivityOptions = ActivityOptions.
-                    makeSceneTransitionAnimation(activity,
-                            new Pair<>(checkBox, activity.getString(R.string.blue_name)));
+//            ActivityOptions transitionActivityOptions = ActivityOptions.
+//                    makeSceneTransitionAnimation(activity,
+//                            new Pair<>(checkBox, activity.getString(R.string.blue_name)));
 
-            activity.startActivity(i, transitionActivityOptions.toBundle());
+            activity.startActivity(i);
         });
         VisitsViewHolder vh = new VisitsViewHolder(view);
         pos = vh.getAdapterPosition();
